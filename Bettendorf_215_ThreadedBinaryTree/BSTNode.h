@@ -19,9 +19,9 @@ private:
   E it;                   // The node's value
   BSTNode* lc;            // Pointer to left child
   BSTNode* rc;            // Pointer to right child
-  //Create a bitfield indicator as to whether the lc and rc are threads branches
-  int leftBitfield;
-  int rightBitfield;
+  //Create bitfield indicators to show if the left and right pointers are threads or branches
+  int leftBit;
+  int rightBit;
 
 
 public:
@@ -47,9 +47,9 @@ public:
   bool isLeaf() { return (lc == NULL) && (rc == NULL); }
 
   //Getters and setters for the bitfields
-  int getLeftBitfield() const { return leftBitfield; }
-  int getRightBitfield() const { return rightBitfield; }
+  int getLeft() const { return leftBitfield; }
+  int getRight() const { return rightBitfield; }
 
-  void setLeftBitfield(int value) { leftBitfield = value; }
-  void setRightBitfield(int value) { rightBitfield = value; }
+  void setLeftBit(int value) { left = value; }
+  void setRightBit(int value) { right = value; }
 };
