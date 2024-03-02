@@ -20,13 +20,13 @@ private:
   BSTNode* lc;            // Pointer to left child
   BSTNode* rc;            // Pointer to right child
   //Create bitfield indicators to show if the left and right pointers are threads or branches
-  int leftBit;
-  int rightBit;
+  unsigned int leftBit : 1;
+  unsigned int rightBit : 1;
 
 
 public:
   // Two constructors -- with and without initial values
-  BSTNode() { lc = rc = NULL; }
+  BSTNode() { lc = rc = NULL;}
   BSTNode(Key K, E e, BSTNode* l =NULL, BSTNode* r =NULL)
     { k = K; it = e; lc = l; rc = r; }
   ~BSTNode() {}             // Destructor
@@ -47,9 +47,12 @@ public:
   bool isLeaf() { return (lc == NULL) && (rc == NULL); }
 
   //Getters and setters for the bitfields
-  int getLeft() const { return leftBitfield; }
-  int getRight() const { return rightBitfield; }
+  int getLeftBit() const { return leftBit; }
+  int getRightBit() const { return rightBit; }
 
-  void setLeftBit(int value) { left = value; }
-  void setRightBit(int value) { right = value; }
+  void setLeftBit(int value) { leftBit = value; }
+  void setRightBit(int value) { rightBit = value; }
+
+  //This function allows us to compare two nodes.
+  bool operator==(BSTNode* b) { return k == b->key(); }
 };
