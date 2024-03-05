@@ -33,8 +33,11 @@ private:
     E* findhelp(BSTNode<Key, E>*, const Key&) const;
     void printhelp(BSTNode<Key, E>*, int) const;
     void vist(BSTNode<Key, E>*) const;
+
     //This function will find the next node in order.
     BSTNode<Key, E>* findNextInorder(BSTNode<Key, E>* current) const;
+    //This function will find the previous node in order.
+    BSTNode<Key, E>* findPrevInorder(BSTNode<Key, E>* current) const;
 
 
 public:
@@ -98,14 +101,37 @@ public:
         else printhelp(root, 0);
     }
 
+    //This function prints out the tree in order without using recursion.
     void printInorder() const {
+        //Create a pointer to the root of the tree.
         BSTNode<Key, E>* current = root;
-        while (current->getLeftBit() == 1) {
-            current = current->left();
-        }
+		//Find the leftmost node in the tree.
+		while (current->getLeftBit() == 0) {
+			current = current->left();
+		}
+		//Find the next node in order.
+		current = findNextInorder(current);
+		//Print out the next node in order.
         while (current != root) {
             vist(current);
             current = findNextInorder(current);
+        }
+    }
+
+	//This function will print the tree in reverse order without using recursion.
+    void printReverse() const {
+        //Create a pointer to the root of the tree.
+        BSTNode<Key, E>* current = root;
+        //Find the rightmost node in the tree.
+        while (current->getRightBit() == 0) {
+            current = current->right();
+        }
+        //Find the previous node in order.
+        current = findPrevInorder(current);
+        //Print out the previous node in order.
+        while (current != root) {
+            vist(current);
+            current = findPrevInorder(current);
         }
     }
 };
@@ -287,11 +313,12 @@ public:
     //This function will find the next node in order.
     template<typename Key, typename E>
     BSTNode<Key, E>* BST<Key, E>::findNextInorder(BSTNode<Key, E>* current) const {
-        //If the right bit is 1, then the right child is a thread.
+
+        //If the right bit is 0, then the right child is a thread.
         if (current->getRightBit() == 0) {
             return current->right();
         }
-        //If the right bit is 0, then the right child is a child.
+        //If the right bit is 1, then the right child is a child.
         else {
             current = current->right();
             while (current->getLeftBit() == 1) {
@@ -300,3 +327,22 @@ public:
             return current;
         }
     }
+
+//This function will find the previous node in order.
+template<typename Key, typename E>
+BSTNode<Key, E>* BST<Key, E>::findPrevInorder(BSTNode<Key, E>* current) const {
+	//If the left bit is 1, then the left child is a thread.
+    if (current->getLeftBit() == 0) {
+		return current->left();
+	}
+
+    //If the left bit is 1, then the left child is a child.
+	else {
+		current = current->left();
+		while (current->getRightBit() == 1) {
+			current = current->right();
+		}
+		return current;
+	}
+    return current;
+}

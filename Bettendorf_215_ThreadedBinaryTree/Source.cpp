@@ -38,8 +38,9 @@ int main() {
 	tree.printInorder();
 
 	//Print reverse inorder traversal
-	cout << "\nReverse Inorder Traversal: \n";
-
+	cout << "\nReverse Order Traversal: \n";
+	tree.printReverse();
+	cout << '\n';
 
 
 	system("pause");
