@@ -2,6 +2,7 @@
 #include <string>
 #include "BST.h"
 #include "BSTNode.h"
+#include "book.h"
 
 using namespace std;
 
@@ -31,5 +32,16 @@ int main() {
 	tree.insert(65, "sixty-five");
 	tree.print();
 
+	//Print inorder traversal
+	cout << "\nInorder Traversal: \n";
+
+	tree.printInorder();
+
+	//Print reverse inorder traversal
+	cout << "\nReverse Inorder Traversal: \n";
+
+
+
+	system("pause");
 	return 0;
 }
