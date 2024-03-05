@@ -20,8 +20,8 @@ private:
   BSTNode* lc;            // Pointer to left child
   BSTNode* rc;            // Pointer to right child
   //Create bitfield indicators to show if the left and right pointers are threads or branches
-  unsigned int leftBit : 1;
-  unsigned int rightBit : 1;
+  bool leftBit : 1;
+  bool rightBit : 1;
 
 
 public:

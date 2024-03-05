@@ -112,63 +112,67 @@ clearhelp(BSTNode<Key, E>* root) {
 }
 
 //Inserthelp is the function that inserts a new node into the tree.
-//This is the first function I modified to make the tree doubly-threaded.
+//This is the first function I need to modify to make the tree doubly-threaded.
 // This function is based on the java code from
 //  https://tutorialhorizon.com/algorithms/double-threaded-binary-tree-complete-implementation/.
 // I modified the code so the boolean variables from the java code are unnecessary.
 template <typename Key, typename E>
 BSTNode<Key, E>* BST<Key, E>::inserthelp(
     BSTNode<Key, E>* root, const Key& k, const E& it){
-
+    if (root == NULL) {
+        //Create a dummy node if it doesn't exist.
+        root = new BSTNode<Key, E>(k, it, NULL, NULL);
+        root->setLeftBit(0);
+        root->setRightBit(1);
+        root->setLeft(root);
+        root->setRight(root);
+    }
     //Create a new node.
     BSTNode<Key, E>* n = new BSTNode<Key, E>(k, it, NULL, NULL);
-    if (root == NULL) {
-        root = new BSTNode<Key, E>(k, it, NULL, NULL);
+    if (root == root->left() && root == root->right()) {
         n->setLeft(root);
         root->setLeft(n);
         n->setLeftBit(root->getLeftBit());
+        root->setLeftBit(1);
+        n->setRight(root);
+        
     }
-	else {
+    else {
         //Find the position to insert the node
-		BSTNode<Key, E>* current = root->left();
-		while (current != NULL) {
-			if (k < current->key()) {
+        BSTNode<Key, E>* current = root->left();
+        while (true) {
+            if (n->key() < current->key()) {
                 //If the left bit is 0, then the left child is a child.
-				if (current->getLeftBit() == 0) {
+                if (current->getLeftBit() == 0) {
                     //Set the left child of the new node to the left child of the current node.
                     n->setLeft(current->left());
                     current->setLeft(n);
                     n->setLeftBit(current->getLeftBit());
                     n->setRight(current);
-                    n->setRightBit(0);
                     current->setLeftBit(1);
-					break;
-				}
-				else {
+                    break;
+                }
+                else {
                     current = current->left();
-				}
-			}
-			else if (k > current->key()) {
-				//If the right bit is 0, then the right child is a child.
-				if (current->getRightBit() == 0) {
+                }
+            }
+            else {
+                //If the right bit is 0, then the right child is added as a child.
+                if (current->getRightBit() == 0) {
                     //Set the right child of the new node to the right child of the current node.
                     n->setRight(current->right());
                     current->setRight(n);
                     n->setRightBit(current->getRightBit());
                     n->setLeft(current);
-                    n->setLeftBit(0);
                     current->setRightBit(1);
-					break;
-				}
+                    break;
+                }
                 //If the right bit is 1, then the right child is a thread.
-				else {
-					current = current->right();
-				}
-			}
-			else {
-				return root;
-			}
-		}
+                else {
+                    current = current->right();
+                }
+            }
+        }
 	}
     return root;       // Return tree with node inserted
 
@@ -177,7 +181,6 @@ BSTNode<Key, E>* BST<Key, E>::inserthelp(
     //    root->setLeft(inserthelp(root->left(), k, it));
     //else root->setRight(inserthelp(root->right(), k, it));
     //return root;       // Return tree with node inserted
-
 }
 
 
@@ -251,11 +254,18 @@ E* BST<Key, E>::findhelp(BSTNode<Key, E>* root,
 template <typename Key, typename E>
 void BST<Key, E>::
 printhelp(BSTNode<Key, E>* root, int level) const {
-  //if (root == NULL) return;           // Empty tree
-  //printhelp(root->left(), level+1);   // Do left subtree
-  //for (int i=0; i<level; i++)         // Indent to level
-  //  cout << "  ";
-  //cout << root->key() << "\n";        // Print node value
-  //printhelp(root->right(), level+1);  // Do right subtree
 
+
+    //Original Code:
+    if (root == NULL) return;           // Empty tree
+    //Check to see if the node is the dummy node
+    if (root->right() == root)
+        root = root->left();
+    if(root->getLeftBit()==1)
+        printhelp(root->left(), level + 1);   // Do left subtree
+    for (int i = 0; i < level; i++)         // Indent to level
+        cout << "  ";
+    cout << root->key() << "\n";        // Print node value
+    if(root->getRightBit()==1)
+        printhelp(root->right(), level + 1);  // Do right subtree
 }
