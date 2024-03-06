@@ -5,6 +5,8 @@
 // 11/17/2023 modification by Prof Sipantzi
 // This file includes all of the pieces of the BST implementation
 
+//Last modified by Luke Bettendorf on 3/5/2024
+
 // Include the node implementation
 #include "BSTNode.h"
 
@@ -301,16 +303,20 @@ public:
         //Check to see if the node is the dummy node
         if (root->right() == root)
             root = root->left();
+        //Check to see if the left child is a child.
         if (root->getLeftBit() == 1)
             printhelp(root->left(), level + 1);   // Do left subtree
         for (int i = 0; i < level; i++)         // Indent to level
             cout << "  ";
         cout << root->key() << "\n";        // Print node value
+
+        //Check to see if the right child is a child.
         if (root->getRightBit() == 1)
             printhelp(root->right(), level + 1);  // Do right subtree
     }
 
     //This function will find the next node in order.
+    //It is based on the provided java code (see the link in the inserthelp function).
     template<typename Key, typename E>
     BSTNode<Key, E>* BST<Key, E>::findNextInorder(BSTNode<Key, E>* current) const {
 
@@ -320,7 +326,9 @@ public:
         }
         //If the right bit is 1, then the right child is a child.
         else {
+            //Move to the right child.
             current = current->right();
+            //Find the leftmost node in the right subtree.
             while (current->getLeftBit() == 1) {
                 current = current->left();
             }
@@ -338,7 +346,9 @@ BSTNode<Key, E>* BST<Key, E>::findPrevInorder(BSTNode<Key, E>* current) const {
 
     //If the left bit is 1, then the left child is a child.
 	else {
+        //Move to the left child.
 		current = current->left();
+        //Find the rightmost node in the left subtree.
 		while (current->getRightBit() == 1) {
 			current = current->right();
 		}

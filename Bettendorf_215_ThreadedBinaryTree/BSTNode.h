@@ -6,6 +6,8 @@
 // This is the file to include for access to the complete binary node
 // template implementation
 
+//Last modified by Luke Bettendorf on 3/5/2024
+
 #include "book.h"
 #include "BinNode.h"
 
@@ -19,9 +21,9 @@ private:
   E it;                   // The node's value
   BSTNode* lc;            // Pointer to left child
   BSTNode* rc;            // Pointer to right child
-  //Create bitfield indicators to show if the left and right pointers are threads or branches
-  bool leftBit : 1;
-  bool rightBit : 1;
+  //Bitfield indicators to show if the left and right pointers are threads or branches
+  unsigned int leftBit : 1;
+  unsigned int rightBit : 1;
 
 
 public:
@@ -46,9 +48,9 @@ public:
   // Return true if it is a leaf, false otherwise
   bool isLeaf() { return (lc == NULL) && (rc == NULL); }
 
-  //Getters and setters for the bitfields
-  int getLeftBit() const { return leftBit; }
-  int getRightBit() const { return rightBit; }
+  //Getters and setters for bitfields
+  unsigned int getLeftBit() const { return leftBit; }
+  unsigned int getRightBit() const { return rightBit; }
 
   void setLeftBit(int value) { leftBit = value; }
   void setRightBit(int value) { rightBit = value; }
